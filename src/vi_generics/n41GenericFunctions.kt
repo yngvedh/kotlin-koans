@@ -1,5 +1,6 @@
 package vi_generics
 
+import org.checkerframework.checker.units.qual.A
 import util.TODO
 import java.util.*
 
@@ -20,11 +21,15 @@ fun task41(): Nothing = TODO(
 )
 
 fun List<String>.partitionWordsAndLines(): Pair<List<String>, List<String>> {
-    task41()
-//    return partitionTo(ArrayList<String>(), ArrayList()) { s -> !s.contains(" ") }
+    return partitionTo(ArrayList(), ArrayList()) { s -> !s.contains(" ") }
+}
+
+fun <A, C : MutableCollection<in A>, D : C> Iterable<A>.partitionTo(a: D, b: D, pred: (A) -> Boolean): Pair<C, C> {
+    a.addAll(this.filter(pred))
+    b.addAll(this.filter { !pred(it) })
+    return Pair<C, C>(a, b)
 }
 
 fun Set<Char>.partitionLettersAndOtherSymbols(): Pair<Set<Char>, Set<Char>> {
-    task41()
-//    return partitionTo(HashSet<Char>(), HashSet()) { c -> c in 'a'..'z' || c in 'A'..'Z'}
+    return partitionTo(HashSet(), HashSet()) { c -> c in 'a'..'z' || c in 'A'..'Z'}
 }
